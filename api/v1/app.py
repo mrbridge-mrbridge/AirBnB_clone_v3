@@ -33,7 +33,7 @@ if __name__ == "__main__":
     if not host_origin:
         host_origin = '0.0.0.0'
     if not port_origin:
-        port_origin = '5000'
+        port_origin = 5000
     app.run(host=host_origin,
             port=port_origin,
             threaded=True)
