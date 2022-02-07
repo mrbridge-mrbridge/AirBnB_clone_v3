@@ -2,7 +2,7 @@
 '''
     RESTful API for Amenity Class
 '''
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -53,14 +53,15 @@ def make_amenities():
     and creates a new JSON obj
     '''
     if not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
-    elif "name" not in request.get_json():
-        return jsonify({"error": "Missing name"}), 400
-    else:
-        data = request.get_json()
-        obj = Amenity(**data)
-        obj.save()
-        return jsonify(obj.to_dict()), 201
+        abort(400, description="Not a JSON")
+
+    if 'name' not in request.get_json():
+        abort(400, description="Missing name")
+
+    data = request.get_json()
+    instance = Amenity(**data)
+    instance.save()
+    return make_response(jsonify(instance.to_dict()), 201)
 
 
 @app_views.route('/amenities/<amenities_id>',
@@ -71,12 +72,18 @@ def update_amenity(amenities_id):
     and return JSON obj
     '''
     if not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
-    obj = storage.get("Amenity", amenities_id)
-    if obj is None:
-        abort(404)
-    data = request.get_json()
-    obj.name = data['name']
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+        abort(400, description="Not a JSON")
 
+    ignore = ['id', 'created_at', 'updated_at']
+
+    amenity = storage.get(Amenity, amenities_id)
+
+    if not amenity:
+        abort(404)
+
+    data = request.get_json()
+    for key, value in data.items():
+        if key not in ignore:
+            setattr(amenity, key, value)
+    storage.save()
+    return make_response(jsonify(amenity.to_dict()), 200)
