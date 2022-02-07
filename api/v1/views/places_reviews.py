@@ -2,7 +2,7 @@
 '''
     RESTful API for  Review Class
 '''
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 from models import storage
 from api.v1.views import app_views
 from models.review import Review
@@ -19,10 +19,10 @@ def get_review_by_place(place_id):
     and returns JSON
     '''
     getplace = storage.get(Place, place_id)
-    if getplace is None:
+    if not getplace:
         abort(404)
     review_list = [r.to_dict() for r in getplace.reviews]
-    return jsonify(review_list), 200
+    return jsonify(review_list)
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
@@ -32,9 +32,9 @@ def get_review_id(review_id):
     and returns JSON
     '''
     getreview = storage.get(Review, review_id)
-    if getreview is None:
+    if not getreview:
         abort(404)
-    return jsonify(getreview.to_dict()), 200
+    return jsonify(getreview.to_dict())
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
@@ -45,11 +45,11 @@ def delete_review(review_id):
     and returns JSON
     '''
     review = storage.get(Review, review_id)
-    if review is None:
+    if not review:
         abort(404)
-    review.delete()
+    storage.delete(review)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
