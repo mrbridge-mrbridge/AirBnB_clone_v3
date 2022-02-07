@@ -14,7 +14,7 @@ def get_users():
     Get all users
     and returns JSON
     '''
-    userl = [u.to_dict() for u in storage.all('User').values()]
+    userl = [u.to_dict() for u in storage.all(User).values()]
     return jsonify(userl)
 
 
@@ -24,7 +24,7 @@ def get_userid(user_id):
     get user by id
     and returns JSON
     '''
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
@@ -36,7 +36,7 @@ def del_user(user_id):
     DELETE user
     and returns JSON
     '''
-    user = storage.get("User", user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     user.delete()
@@ -71,7 +71,7 @@ def update_user(user_id):
     '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
-    obj = storage.get("User", user_id)
+    obj = storage.get(User, user_id)
     if obj is None:
         abort(404)
     data = request.get_json()
