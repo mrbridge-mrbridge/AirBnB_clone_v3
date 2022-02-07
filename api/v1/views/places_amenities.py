@@ -13,7 +13,7 @@ from models.user import User
 from models.amenity import Amenity
 
 
-@app_views.route('/api/v1/places/<place_id>/amenities', methods=['GET'],
+@app_views.route('/places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def get_amenity_by_place(place_id):
     '''
@@ -35,7 +35,7 @@ def get_amenity_by_place(place_id):
     return jsonify(amenity_obj)
 
 
-@app_views.route('/api/v1/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'],
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
 
 def delete_amenity(place_id, amenity_id):
@@ -62,7 +62,7 @@ def delete_amenity(place_id, amenity_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/api/v1/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
                  strict_slashes=False)
 def create_amenity(place_id, amenity_id):
     '''
