@@ -13,7 +13,7 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views('/api/v1/stats', methods=['GET'], strict_slashes=False)
+@app_views('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """retunrns stats count"""
     counts = {
