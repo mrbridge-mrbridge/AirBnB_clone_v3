@@ -27,10 +27,13 @@ def errnot():
     make_response(jsonify({"error": "Not found"}), 404)
 
 
-host_origin = os.environ['HBNB_API_HOST', '0.0.0.0']
-port_origin = int(os.environ['HBNB_API_PORT', 5000])
-
 if __name__ == "__main__":
+    host_origin = os.environ['HBNB_API_HOST']
+    port_origin = os.environ['HBNB_API_PORT']
+    if not host_origin:
+        host_origin = '0.0.0.0'
+    if not port_origin:
+        port_origin = '5000'
     app.run(host=host_origin,
             port=port_origin,
             threaded=True)
