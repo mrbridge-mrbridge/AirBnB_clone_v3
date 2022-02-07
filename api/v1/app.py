@@ -28,7 +28,7 @@ def errnot():
 
 
 host_origin = os.environ['HBNB_API_HOST', '0.0.0.0']
-port_origin = os.environ['HBNB_API_PORT', 5000]
+port_origin = int(os.environ['HBNB_API_PORT', 5000])
 
 if __name__ == "__main__":
     app.run(host=host_origin,
