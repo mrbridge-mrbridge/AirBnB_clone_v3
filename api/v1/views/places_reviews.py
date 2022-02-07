@@ -2,11 +2,13 @@
 '''
     RESTful API for  Review Class
 '''
-from flask import Flask, jsonify, abort, request, make_response
+from flask import Flask, jsonify, abort, request
 from models import storage
 from api.v1.views import app_views
 from models.review import Review
 from models.place import Place
+from models.city import City
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
@@ -81,19 +83,18 @@ def update_review(review_id):
     Update route for place reviews
     and returns JSON
     '''
-    review = storage.get(Review, review_id)
-
-    if not review:
+    obj = storage.get(Review, review_id)
+    if obj is None:
         abort(404)
-
-    if not request.get_json():
-        abort(400, description="Not a JSON")
-
-    ignore = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-
-    data = request.get_json()
-    for key, value in data.items():
-        if key not in ignore:
-            setattr(review, key, value)
-    storage.save()
-    return make_response(jsonify(review.to_dict()), 200)
+    elif not request.get_json():
+        return jsonify({"error": "Not a JSON"}), 400
+    else:
+        obj_data = request.get_json()
+        ignore = ("id", "user_id", "place_id", "created_at", "updated_at")
+        for k in obj_data.keys():
+            if k in ignore:
+                pass
+            else:
+                setattr(obj, k, obj_data[k])
+        obj.save()
+        return jsonify(obj.to_dict()), 200
