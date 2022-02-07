@@ -22,9 +22,9 @@ def tearDown():
 
 
 @app.errorhandler(404)
-def errnot():
+def not_found():
     """Error 404"""
-    make_response(jsonify({"error": "Not found"}), 404)
+    make_response(jsonify({'error': "Not found"}), 404)
 
 
 if __name__ == "__main__":
