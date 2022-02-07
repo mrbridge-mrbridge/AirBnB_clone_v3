@@ -9,14 +9,14 @@ from api.v1.views import app_views
 from models.state import State
 
 
-@app_views('/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_state():
     """sends state information"""
     slist = [s.to_dict() for s in storage.all('State').values()]
     return jsonify(slist)
 
 
-@app_views('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """Deletes state"""
     data = storage.get("State", state_id)
@@ -27,7 +27,7 @@ def delete_state(state_id):
     return jsonify({}), 200
 
 
-@app_views('/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """creates state  from user input"""
     if not request.get_json():
@@ -41,7 +41,7 @@ def create_state():
         return jsonify(obj.to_dict()), 201
 
 
-@app_views('/states/<state_id>', methods=['PUT'], strict_slash=False)
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slash=False)
 def update_state(state_id):
     """updates state"""
     if not request.get_json():
