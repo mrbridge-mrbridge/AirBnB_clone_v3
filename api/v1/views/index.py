@@ -35,4 +35,3 @@ def stats():
     for i in range(len(classes)):
         num_objs[names[i]] = storage.count(classes[i])
     return jsonify(classes)
-
