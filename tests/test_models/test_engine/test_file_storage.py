@@ -88,8 +88,6 @@ test_file_storage.py'])
         self.assertGreaterEqual(all_count, cls_no)
 
 
-
-
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")

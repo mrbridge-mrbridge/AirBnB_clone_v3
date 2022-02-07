@@ -94,7 +94,7 @@ class DBStorage:
         if cls is not None:
             obj = self.__session.query(models.classes[cls]).all()
         else:
-            for k,v in models.classes.items():
+            for k, v in models.classes.items():
                 if k != "BaseModel":
                     obj = self.__session.query(models.classes[k]).all()
                     cls_no += len(obj)
