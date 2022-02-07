@@ -6,6 +6,8 @@ from flask import Flask, jsonify, abort, request
 from models import storage
 from api.v1.views import app_views
 from models.place import Place
+from models.city import City
+from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -15,7 +17,7 @@ def get_place_city(city_id):
     GET place by City
     and returns JSON
     '''
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     places_list = [p.to_dict() for p in city.places]
@@ -28,7 +30,7 @@ def get_placeid(place_id):
     GET place by ID
     and returns JSON
     '''
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     return jsonify(place.to_dict()), 200
@@ -41,7 +43,7 @@ def del_place(place_id):
     DELETE PLACE
     and returns JSON
     '''
-    place = storage.get("Place", place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     place.delete()
@@ -64,8 +66,8 @@ def make_place(city_id):
         return jsonify({"error": "Missing user_id"}), 400
     else:
         data = request.get_json()
-        city = storage.get("City", city_id)
-        user = storage.get("User", data['user_id'])
+        city = storage.get(City, city_id)
+        user = storage.get(User, data['user_id'])
         if city is None or user is None:
             abort(404)
         data['city_id'] = city.id
@@ -94,4 +96,3 @@ def update_place(place_id):
             setattr(obj, k, v)
     obj.save()
     return jsonify(obj.to_dict()), 200
-

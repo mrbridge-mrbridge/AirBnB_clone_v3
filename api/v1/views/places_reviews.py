@@ -6,6 +6,9 @@ from flask import Flask, jsonify, abort, request
 from models import storage
 from api.v1.views import app_views
 from models.review import Review
+from models.place import Place
+from models.city import City
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
@@ -15,7 +18,7 @@ def get_review_by_place(place_id):
     Get for places
     and returns JSON
     '''
-    getplace = storage.get("Place", place_id)
+    getplace = storage.get(Place, place_id)
     if getplace is None:
         abort(404)
     review_list = [r.to_dict() for r in getplace.reviews]
@@ -28,7 +31,7 @@ def get_review_id(review_id):
     GET for places
     and returns JSON
     '''
-    getreview = storage.get("Review", review_id)
+    getreview = storage.get(Review, review_id)
     if getreview is None:
         abort(404)
     return jsonify(getreview.to_dict()), 200
@@ -41,7 +44,7 @@ def delete_review(review_id):
     DELETE for reviews
     and returns JSON
     '''
-    review = storage.get("Review", review_id)
+    review = storage.get(Review, review_id)
     if review is None:
         abort(404)
     review.delete()
@@ -56,7 +59,7 @@ def create_review(place_id):
     POST for place reviews
     and returns JSON
     '''
-    if storage.get("Place", place_id) is None:
+    if storage.get(Place, place_id) is None:
         abort(404)
     elif not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
@@ -80,7 +83,7 @@ def update_review(review_id):
     Update route for place reviews
     and returns JSON
     '''
-    obj = storage.get("Review", review_id)
+    obj = storage.get(Review, review_id)
     if obj is None:
         abort(404)
     elif not request.get_json():
@@ -95,4 +98,3 @@ def update_review(review_id):
                 setattr(obj, k, obj_data[k])
         obj.save()
         return jsonify(obj.to_dict()), 200
-
