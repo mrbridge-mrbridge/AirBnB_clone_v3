@@ -28,8 +28,8 @@ def errnot():
 
 
 if __name__ == "__main__":
-    host_origin = os.environ['HBNB_API_HOST']
-    port_origin = os.environ['HBNB_API_PORT']
+    host_origin = os.getenv['HBNB_API_HOST']
+    port_origin = os.getenv['HBNB_API_PORT']
     if not host_origin:
         host_origin = '0.0.0.0'
     if not port_origin:
