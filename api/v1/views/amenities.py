@@ -14,11 +14,8 @@ def get_amenities():
     GET amenities and
     returns JSON
     '''
-    all_amenities = storage.all(Amenity).values()
-    list_a = []
-    for amenity in all_amenities:
-        list_a.append(amenity.to_dict())
-    return jsonify(list_a)
+    a_list = [a.to_dict() for a in storage.all(Amenity).values()]
+    return jsonify(a_list)
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -41,7 +38,7 @@ def delete_amenity(amenity_id):
     DELETE amenity by id
     And return JSON obj
     '''
-    a = storage.get("Amenity", amenity_id)
+    a = storage.get(Amenity, amenity_id)
     if a is None:
         abort(404)
     a.delete()
