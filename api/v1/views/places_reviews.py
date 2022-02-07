@@ -59,22 +59,30 @@ def create_review(place_id):
     POST for place reviews
     and returns JSON
     '''
-    if storage.get(Place, place_id) is None:
+    place = storage.get(Place, place_id)
+
+    if not place:
         abort(404)
-    elif not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
-    elif "user_id" not in request.get_json():
-        return jsonify({"error": "Missing user_id"}), 400
-    elif storage.get("User", request.get_json()["user_id"]) is None:
+
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    if 'user_id' not in request.get_json():
+        abort(400, description="Missing user_id")
+
+    data = request.get_json()
+    user = storage.get(User, data['user_id'])
+
+    if not user:
         abort(404)
-    elif "text" not in request.get_json():
-        return jsonify({"error": "Missing text"}), 400
-    else:
-        data = request.get_json()
-        obj = Review(**data)
-        obj.place_id = place_id
-        obj.save()
-        return jsonify(obj.to_dict()), 201
+
+    if 'text' not in request.get_json():
+        abort(400, description="Missing text")
+
+    data['place_id'] = place_id
+    instance = Review(**data)
+    instance.save()
+    return make_response(jsonify(instance.to_dict()), 201)
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
