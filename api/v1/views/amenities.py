@@ -14,7 +14,7 @@ def get_amenities():
     GET amenities and
     returns JSON
     '''
-    a_list = [a.to_dict() for a in storage.all('Amenity').values()]
+    a_list = [a.to_dict() for a in storage.all(Amenity).values()]
     return jsonify(a_list)
 
 
