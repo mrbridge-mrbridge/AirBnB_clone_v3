@@ -25,8 +25,8 @@ def get_amenity_id(amenity_id):
     amenity by id GET
     And returns JSON obj
     '''
-    a = storage.get("Amenity", amenity_id)
-    if a is None:
+    a = storage.get(Amenity, amenity_id)
+    if not a:
         abort(404)
     return jsonify(a.to_dict())
 
