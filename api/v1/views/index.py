@@ -15,23 +15,18 @@ from models.user import User
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    """
-    returns stats count and returns it
-    as JSON
-    """
+    """ Status of API """
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def stats():
-    """
-    returns stats count and returns it
-    as JSON
-    """
+def number_objects():
+    """ STats of items by objects return """
     classes = [Amenity, City, Place, Review, State, User]
     names = ["amenities", "cities", "places", "reviews", "states", "users"]
 
     num_objs = {}
     for i in range(len(classes)):
         num_objs[names[i]] = storage.count(classes[i])
-    return jsonify(classes)
+
+    return jsonify(num_objs)
