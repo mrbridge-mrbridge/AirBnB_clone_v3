@@ -30,7 +30,6 @@ class User(BaseModel, Base):
         super().__init__(*args, **kwargs)
 
 
-
     def __setattr__(self, name, value):
         """sets a password """
         if name == "password":
