@@ -38,12 +38,16 @@ def delete_amenity(amenity_id):
     DELETE amenity by id
     And return JSON obj
     '''
-    a = storage.get("Amenity", amenity_id)
-    if a is None:
-        abort(404)
-    a.delete()
-    storage.save()
-    return jsonify({}), 200
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    if 'name' not in request.get_json():
+        abort(400, description="Missing name")
+
+    data = request.get_json()
+    instance = Amenity(**data)
+    instance.save()
+    return make_response(jsonify(instance.to_dict()), 201)
 
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
