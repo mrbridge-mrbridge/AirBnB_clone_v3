@@ -68,3 +68,4 @@ def update_state(state_id):
     obj.name = data['name']
     obj.save()
     return jsonify(obj.to_dict()), 200
+

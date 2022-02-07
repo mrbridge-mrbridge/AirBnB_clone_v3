@@ -94,3 +94,4 @@ def update_place(place_id):
             setattr(obj, k, v)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
