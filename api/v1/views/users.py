@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for User
+    RESTful API for User Class
 '''
 from flask import Flask, jsonify, abort, request
 from api.v1.views import app_views
@@ -10,14 +10,20 @@ from models.user import User
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
-    '''Get all users'''
+    '''
+    Get all users
+    and returns JSON
+    '''
     userl = [u.to_dict() for u in storage.all('User').values()]
     return jsonify(userl)
 
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_userid(user_id):
-    '''get user by id'''
+    '''
+    get user by id
+    and returns JSON
+    '''
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
@@ -26,7 +32,10 @@ def get_userid(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def del_user(user_id):
-    '''DELETE user'''
+    '''
+    DELETE user
+    and returns JSON
+    '''
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
@@ -37,7 +46,10 @@ def del_user(user_id):
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def make_user():
-    '''creates User POST'''
+    '''
+    creates User POST
+    and returns JSON
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     elif "email" not in request.get_json():
@@ -53,7 +65,10 @@ def make_user():
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
-    '''updates user info PUT'''
+    '''
+    updates user info PUT
+    and returns JSON
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     obj = storage.get("User", user_id)

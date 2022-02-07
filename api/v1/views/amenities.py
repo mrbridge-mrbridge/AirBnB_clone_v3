@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for Amenity
+    RESTful API for Amenity Class
 '''
 from flask import Flask, jsonify, abort, request
 from api.v1.views import app_views
@@ -10,7 +10,10 @@ from models.amenity import Amenity
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
-    '''GET amenities '''
+    '''
+    GET amenities and
+    returns JSON
+    '''
     a_list = [a.to_dict() for a in storage.all('Amenity').values()]
     return jsonify(a_list)
 
@@ -18,7 +21,10 @@ def get_amenities():
 @app_views.route('/amenities/<amenity_id>',
                  methods=['GET'], strict_slashes=False)
 def get_amenity_id(amenity_id):
-    '''amenity by id GET'''
+    '''
+    amenity by id GET
+    And returns JSON obj
+    '''
     a = storage.get("Amenity", amenity_id)
     if a is None:
         abort(404)
@@ -28,7 +34,10 @@ def get_amenity_id(amenity_id):
 @app_views.route('/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_amenity(amenity_id):
-    '''DELETE amenity by id'''
+    '''
+    DELETE amenity by id
+    And return JSON obj
+    '''
     a = storage.get("Amenity", amenity_id)
     if a is None:
         abort(404)
@@ -39,7 +48,10 @@ def delete_amenity(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def make_amenities():
-    '''make amenities POST'''
+    '''
+    make amenities POST
+    and creates a new JSON obj
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     elif "name" not in request.get_json():
@@ -54,7 +66,10 @@ def make_amenities():
 @app_views.route('/amenities/<amenities_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_amenity(amenities_id):
-    '''updates by id PUT'''
+    '''
+    updates by id PUT
+    and return JSON obj
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     obj = storage.get("Amenity", amenities_id)

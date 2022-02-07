@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for  Review
+    RESTful API for  Review Class
 '''
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -11,7 +11,10 @@ from models.review import Review
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
 def get_review_by_place(place_id):
-    '''Get for places'''
+    '''
+    Get for places
+    and returns JSON
+    '''
     getplace = storage.get("Place", place_id)
     if getplace is None:
         abort(404)
@@ -21,7 +24,10 @@ def get_review_by_place(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def get_review_id(review_id):
-    '''GET for places'''
+    '''
+    GET for places
+    and returns JSON
+    '''
     getreview = storage.get("Review", review_id)
     if getreview is None:
         abort(404)
@@ -31,7 +37,10 @@ def get_review_id(review_id):
 @app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_review(review_id):
-    '''DELETE for reviews'''
+    '''
+    DELETE for reviews
+    and returns JSON
+    '''
     review = storage.get("Review", review_id)
     if review is None:
         abort(404)
@@ -43,7 +52,10 @@ def delete_review(review_id):
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def create_review(place_id):
-    '''POST for place reviews'''
+    '''
+    POST for place reviews
+    and returns JSON
+    '''
     if storage.get("Place", place_id) is None:
         abort(404)
     elif not request.get_json():
@@ -64,7 +76,10 @@ def create_review(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
-    '''Update route for place reviews'''
+    '''
+    Update route for place reviews
+    and returns JSON
+    '''
     obj = storage.get("Review", review_id)
     if obj is None:
         abort(404)

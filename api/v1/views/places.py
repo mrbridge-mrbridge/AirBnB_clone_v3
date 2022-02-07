@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for Place
+    RESTful API for Place Class
 '''
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -11,7 +11,10 @@ from models.place import Place
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def get_place_city(city_id):
-    ''' GET place by City'''
+    '''
+    GET place by City
+    and returns JSON
+    '''
     city = storage.get("City", city_id)
     if city is None:
         abort(404)
@@ -21,7 +24,10 @@ def get_place_city(city_id):
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def get_placeid(place_id):
-    '''GET place by ID'''
+    '''
+    GET place by ID
+    and returns JSON
+    '''
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
@@ -31,7 +37,10 @@ def get_placeid(place_id):
 @app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def del_place(place_id):
-    '''DELETE PLACE'''
+    '''
+    DELETE PLACE
+    and returns JSON
+    '''
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
@@ -43,7 +52,10 @@ def del_place(place_id):
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def make_place(city_id):
-    ''' POST/CREATE new place '''
+    '''
+    POST/CREATE new place
+    and returns JSON
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     elif "name" not in request.get_json():
@@ -65,7 +77,10 @@ def make_place(city_id):
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
-    '''PUT/UPDATE PLACE'''
+    '''
+    PUT/UPDATE PLACE
+    and returns JSON
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
 

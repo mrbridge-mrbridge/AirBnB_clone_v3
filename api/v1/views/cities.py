@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-    RESTful API for City
+    RESTful API for City Class
 '''
 from flask import Flask, jsonify, abort, request
 from models import storage
@@ -11,7 +11,10 @@ from models.city import City
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
 def get_city_by_state(state_id):
-    '''city by state'''
+    '''
+    city by state
+    and returns JSON
+    '''
     data = storage.get("State", state_id)
     if data is None:
         abort(404)
@@ -21,7 +24,10 @@ def get_city_by_state(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city_id(city_id):
-    '''city by id'''
+    '''
+    city by id
+    and returns JSON
+    '''
     data = storage.get("City", city_id)
     if data is None:
         abort(404)
@@ -30,7 +36,10 @@ def get_city_id(city_id):
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
-    '''Delet city'''
+    '''
+    Delete city
+    and returns JSON
+    '''
     data = storage.get("City", city_id)
     if data is None:
         abort(404)
@@ -42,7 +51,10 @@ def delete_city(city_id):
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
 def make_city(state_id):
-    '''create city POST'''
+    '''
+    create city POST
+    and returns JSON
+    '''
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
     elif "name" not in request.get_json():
