@@ -7,13 +7,13 @@ from flask import jsonify
 from models import storage
 
 
-@app_views('/status')
+@app_views('/status', methods=['GET'], strict_slashes=False)
 def status():
     """Returns status ok"""
     return jsonify({"status": "OK"})
 
 
-@app_views('/api/v1/stats')
+@app_views('/api/v1/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """retunrns stats count"""
     counts = {
