@@ -86,7 +86,7 @@ def update_place(place_id):
     if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
 
-    obj = storage.get("Place", place_id)
+    obj = storage.get(Place, place_id)
     if obj is None:
         abort(404)
     data = request.get_json()
