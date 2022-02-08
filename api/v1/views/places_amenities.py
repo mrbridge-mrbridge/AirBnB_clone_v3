@@ -4,7 +4,7 @@
 '''
 from flask import jsonify, abort, request
 from models import storage
-from os import getenv
+from os import environ
 from api.v1.views import app_views
 from models.review import Review
 from models.place import Place
@@ -23,7 +23,7 @@ def get_amenity_by_place(place_id):
     getplace = storage.get(Place, place_id)
     if not getplace:
         abort(404)
-    if getenv("HBNB_TYPE_STORAGE") == "db":
+    if environ.get("HBNB_TYPE_STORAGE") == "db":
         amen = getplace.amenities
     else:
         amen = []
@@ -54,7 +54,7 @@ def delete_amenity(place_id, amenity_id):
     for item in getamenity:
         if item.id not in getplace.amenity_ids:
             abort(404)
-    if getenv("HBNB_TYPE_STORAGE") == "db":
+    if environ.get("HBNB_TYPE_STORAGE") == "db":
         storage.delete(getamenity)
     else:
         storage.delete(getamenity)
@@ -81,7 +81,7 @@ def create_amenity(place_id, amenity_id):
         if item.id in getplace.amenity_ids:
             return make_response(jsonify(item.to_dict()), 200)
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
+    if environ.get("HBNB_TYPE_STORAGE") == "db":
         getplace.amenities.append(getamenity)
     else:
         getplace.amenities = getamenity
