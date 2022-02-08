@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-'''
+"""
     RESTful API for Amenities of a Place
-'''
+"""
+
 from flask import jsonify, abort, request
 from models import storage
 from os import environ
 from api.v1.views import app_views
 from models.place import Place
+from models.amenity import Amenity
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
