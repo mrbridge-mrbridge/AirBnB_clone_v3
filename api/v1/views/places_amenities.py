@@ -25,14 +25,13 @@ def get_amenity_by_place(place_id):
         amen = [amenity.to_dict() for amenity in getplace.amenities]
     else:
         amen = [storage.get(Amenity, amenity_id).to_dict()
-                     for amenity_id in getplace.amenity_ids]
+                for amenity_id in getplace.amenity_ids]
     return jsonify(amen)
 
 
-
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'],
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'],
                  strict_slashes=False)
-
 def delete_amenity(place_id, amenity_id):
     '''
     DELETE for amenities
@@ -73,7 +72,6 @@ def create_amenity(place_id, amenity_id):
     getamenity = storage.get(Amenity, amenity_id)
     if not getamenity:
         abort(404)
-
 
     if environ.get("HBNB_TYPE_STORAGE") == "db":
         if getamenity in getplace.amenities:
